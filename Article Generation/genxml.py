@@ -66,7 +66,7 @@ def sha36(page_id):
 
 
 def writePage(title, wikiText, f):
-    global user_id, username
+    global user_id, username, page_id
 
     pglen = len(wikiText)
     time = datetime.now().strftime("%Y-%m-%dT%H-%M-%SZ")
@@ -93,21 +93,20 @@ def writePage(title, wikiText, f):
 		</revision>
 	</page>
 	\n\n'''
-
     f.write(curPage)
     return
-
 
 
 file_loader = FileSystemLoader('')
 env = Environment(loader=file_loader)
 template = env.get_template('hospitals_jinja.j2')
-data = pd.read_excel('sample.xlsx').astype('str')
+data = pd.read_excel('Translated_Data.xlsx').astype('str')
 print(data.iloc[[0]])
 ids = data['name'].tolist()
 print(ids)
 
-with open('sample.xml', "w", encoding="utf-8") as f:
+
+with open('output.xml', "w", encoding="utf-8") as f:
     print(tewiki)
     s = str(tewiki)
     f.write(tewiki+'\n')
@@ -118,6 +117,7 @@ with open('sample.xml', "w", encoding="utf-8") as f:
         print(text)
         writePage(title, text, f)
         print('\n', i, title)
+        page_id = page_id+1
 
     f.write('</mediawiki>')
     f.close()
