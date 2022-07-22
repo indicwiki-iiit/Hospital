@@ -113,8 +113,10 @@ with open('output.xml', "w", encoding="utf-8") as f:
 
     for i in range(len(ids)):
         title = data['name'].values[i]
+        title = title.replace("&", "&amp;")
         text = template.render(data.iloc[i])
         print(text)
+        text = text.replace("&", "&amp;")
         writePage(title, text, f)
         print('\n', i, title)
         page_id = page_id+1
