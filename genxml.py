@@ -92,7 +92,7 @@ def writePage(title, wikiText, f):
 			<sha1>''' + sha36(page_id) + '''</sha1>
 		</revision>
 	</page>
-	\n\n'''
+	\n'''
     f.write(curPage)
     return
 
