@@ -15,11 +15,11 @@
 {%- if beds == '' -%}
     {%- set beds=' '-%}
 {%- endif -%}
-{%- if pincode == '' -%}
+{%- if pincode == 'nan' -%}
     {%- set pincode=' '-%}
 {%- endif -%}
 
-	{{Infobox hospital
+	{{'{{Infobox hospital'}}
 | name                  = {{name}}
 | org/group             = 
 | logo                  = 
@@ -59,13 +59,13 @@
 | website               = 
 | other_links           = 
 | module                = 
-}}
+{{'}}\n'}}
 {%- endmacro -%}
 
 {%- macro intro(name, state, category) -%}
-        {%- set line1= [name," [[ఆసుపత్రి]] ",state," [రాష్ట్రంలో|రాష్ట్రం] ఉన్న ఒక ",category," వైద్య సౌకర్యం. " ] |join('') -%}
-        {%- set line2= [name," [[ఆసుపత్రి]] ", category," వైద్య సౌకర్యం. ఇది ",state," [రాష్ట్రంలో|రాష్ట్రం] ఉన్నది."  ]|join('') -%}
-        {%- set line3= [name," ",state," [రాష్ట్రంలో|రాష్ట్రం] ఉన్న ఒక ఆరోగ్య కేంద్రం. ఇది ",category," నిర్వహణ లో ఉన్నది."]|join('') -%}
+        {%- set line1= [name," [[ఆసుపత్రి]] ",state," [[రాష్ట్రం|రాష్ట్రంలో]] ఉన్న ఒక ",category," వైద్య సౌకర్యం. " ] |join('') -%}
+        {%- set line2= [name," [[ఆసుపత్రి]] ", category," వైద్య సౌకర్యం. ఇది ",state," [[రాష్ట్రం|రాష్ట్రంలో]] ఉన్నది."  ]|join('') -%}
+        {%- set line3= [name," ",state," [[రాష్ట్రం|రాష్ట్రంలో]] ఉన్న ఒక ఆరోగ్య కేంద్రం. ఇది ",category," నిర్వహణ లో ఉన్నది."]|join('') -%}
 	    {{ [ line1, line2, line3 ] | random }}
 {%- endmacro -%}
 
@@ -83,8 +83,8 @@
 {%- macro facilities(noofdoctors, beds, services,insurance) -%}
 	{{ '==సౌకర్యాలు=='+'\n' }}
     {%- if (noofdoctors!= 'nan') -%}
-        {%- set line1= ["ఈ ఆసుపత్రిలోని మొత్తం [వైద్యుల|వైద్యుడు] సంఖ్య ",noofdoctors ,". "] |join('') -%}
-        {%- set line2= ["ఈ ఆసుపత్రిలో పని చెసే [వైద్యుల|వైద్యుడు] ",noofdoctors ,". "] |join('') -%}
+        {%- set line1= ["ఈ ఆసుపత్రిలోని మొత్తం [[వైద్యుడు|వైద్యుల]] సంఖ్య ",noofdoctors ,". "] |join('') -%}
+        {%- set line2= ["ఈ ఆసుపత్రిలో పని చెసే [[వైద్యుడు|వైద్యుల]] ",noofdoctors ,". "] |join('') -%}
         {{ [ line1,line2 ] | random }}
     {%- endif -%}
     
@@ -101,20 +101,20 @@
         {% set services_list=services.split(',') %}
         {%- if services_list| length >= 3 -%}
             {%- set line = services_list[:2]|join(',') -%}
-            {{ "\nఈ ఆసుపత్రి "+line+ "వంటి రోగనిర్ధారణ సౌకర్యాలు అందిస్తుంది. సౌకర్యాల పూర్తి  జాబితా :\n\nref>ref_list[0]</ref>" }}
+            {{ "\nఈ ఆసుపత్రి "+line+ "వంటి రోగనిర్ధారణ సౌకర్యాలు అందిస్తుంది. సౌకర్యాల పూర్తి  జాబితా :\n\n" }}
             {%- for service in services_list -%}
                 {{'* '+service + '\n'}}
             {%- endfor -%}
         {%- elif services_list| length >= 3 -%}
-            {{ "\nఈ ఆసుపత్రి అందించే రోగనిర్ధారణ సౌకర్యాల జాబితా  :ref>ref_list[0]</ref>\n\n" }}
+            {{ "\nఈ ఆసుపత్రి అందించే రోగనిర్ధారణ సౌకర్యాల జాబితా  :\n\n" }}
             {%- for service in services_list -%}
                 {{'* '+service + '\n'}}
             {%- endfor -%}
         {%- elif services_list | length > 1 -%}
             {%- set line = services_list|join(', ')|string -%}
-            {{ '\n'+line+ ' వంటి రోగనిర్ధారణ సౌకర్యాలు ఆసుపత్రి ద్వారా అందించబడతాయి. ref>ref_list[0]</ref>'}}
+            {{ '\n'+line+ ' వంటి రోగనిర్ధారణ సౌకర్యాలు ఆసుపత్రి ద్వారా అందించబడతాయి. '}}
         {%- elif services_list | length  == 1 -%}
-            {{ "\nఈ ఆసుపత్రి "+services_list[0]+"  రోగనిర్ధారణ సౌకర్యాలకు గుర్తించబడినది.ref>ref_list[0]</ref> " }}
+            {{ "\nఈ ఆసుపత్రి "+services_list[0]+"  రోగనిర్ధారణ సౌకర్యాలకు గుర్తించబడినది." }}
         {%- endif %}
     {%- endif -%}
 
@@ -122,15 +122,15 @@
         {%- set line='nothing' -%}
     {%- else -%}
         {% set ref_list=references.split(',') %}
-        {%- set line1= ["ఈ ఆసుపత్రికి నేషనల్ ఇన్సూరెన్స్ కంపెనీ లిమిటెడ్ అనే భీమా సంస్థ  భీమా సదుపాయం కల్పిస్తుంది.<ref>ref_list[0]</ref>"] |join('') -%}
-        {%- set line2= ["నేషనల్ ఇన్సూరెన్స్ కంపెనీ లిమిటెడ్ అనే భీమా సంస్థ ఈ ఆసుపత్రి కొరకు భీమా సదుపాయం కల్పిస్తుంది.<ref>ref_list[0]</ref>"] |join('') -%}
+        {%- set line1= ["ఈ ఆసుపత్రికి నేషనల్ ఇన్సూరెన్స్ కంపెనీ లిమిటెడ్ అనే భీమా సంస్థ  భీమా సదుపాయం కల్పిస్తుంది."] |join('') -%}
+        {%- set line2= ["నేషనల్ ఇన్సూరెన్స్ కంపెనీ లిమిటెడ్ అనే భీమా సంస్థ ఈ ఆసుపత్రి కొరకు భీమా సదుపాయం కల్పిస్తుంది."] |join('') -%}
             {{ [ line1,line2 ] | random }}
     {%- endif -%}
 
 {%- endmacro -%}
 
 {%- macro ending(references) -%}
-	{{ '==మూలాలు=='+'\n\n1. ఈ వివరములు [https://www.practo.com/ | ప్రక్టో ] వారి వెబ్సైటు నుండి సేకరించబడినవి.'+'\n\n'+'2. [https://nationalinsurance.nic.co.in/en/health-insurance/city-wise-list-ppn-hospitals | National Insurance] ప్లాట్ఫారం ఇండియా  విడుదల చేసిన 2022 డేటా.'+'\n\n' + '3. [https://data.gov.in/catalog/hospital-directory-national-health-portal| Open Government Data] వారి ప్లాట్ఫారం నుండి సేకరించబడినవి.'+'\n\n'}}
+	{{ '==మూలాలు=='+'\n\n1. ఈ వివరములు [https://www.practo.com/ | ప్రక్టో ] వారి వెబ్సైటు నుండి సేకరించబడినవి.'+'\n\n'+ '2. [https://data.gov.in/catalog/hospital-directory-national-health-portal| Open Government Data] వారి ప్లాట్ఫారం నుండి సేకరించబడినవి.'+'\n\n'+ '3. [https://data.gov.in/catalog/hospital-directory-national-health-portal| Open Government Data] వారి ప్లాట్ఫారం నుండి సేకరించబడినవి.'+'\n\n'}}
 {%- endmacro -%}
 
 {%- macro details(country, state, city) -%}
