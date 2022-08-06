@@ -6,17 +6,21 @@
 {%- endmacro -%}
 
 {%- macro infobox(name, type, address, city, state, pincode, country, contactno, category, noofdoctors, beds, services, state_id, insurance, references) -%}
-{%- if insurance == '' -%}
-    {%- set insurance=' ' -%}
+{%- if insurance == 'nan' -%}
+    {%- set insurance='' -%}
 {%- endif -%}
-{%- if noofdoctors == '' -%}
-    {%- set noofdoctors=' ' -%}
+{%- if noofdoctors == 'nan' -%}
+    {%- set noofdoctors='' -%}
 {%- endif -%}
-{%- if beds == '' -%}
-    {%- set beds=' '-%}
+{%- if beds == 'nan' -%}
+    {%- set beds=''-%}
 {%- endif -%}
 {%- if pincode == 'nan' -%}
-    {%- set pincode=' '-%}
+    {%- set pincode=''-%}
+{%- endif -%}
+
+{%- if contactno == 'nan' -%}
+    {%- set contactno=''-%}
 {%- endif -%}
 
 	{{'{{Infobox hospital'}}
@@ -84,7 +88,7 @@
 	{{ '==సౌకర్యాలు=='+'\n' }}
     {%- if (noofdoctors!= 'nan') -%}
         {%- set line1= ["ఈ ఆసుపత్రిలోని మొత్తం [[వైద్యుడు|వైద్యుల]] సంఖ్య ",noofdoctors ,". "] |join('') -%}
-        {%- set line2= ["ఈ ఆసుపత్రిలో పని చెసే [[వైద్యుడు|వైద్యుల]] ",noofdoctors ,". "] |join('') -%}
+        {%- set line2= ["ఈ ఆసుపత్రిలో పని చెసే [[వైద్యుడు|వైద్యుల]] సంఖ్య ",noofdoctors ,". "] |join('') -%}
         {{ [ line1,line2 ] | random }}
     {%- endif -%}
     
@@ -97,7 +101,7 @@
     {%- if services == 'nan' -%}
         {%- set line = 'nothing' -%}
     {%- else -%}
-        {% set ref_list=references.split(',') %}
+
         {% set services_list=services.split(',') %}
         {%- if services_list| length >= 3 -%}
             {%- set line = services_list[:2]|join(',') -%}
@@ -121,7 +125,7 @@
     {%- if insurance =='nan'-%}
         {%- set line='nothing' -%}
     {%- else -%}
-        {% set ref_list=references.split(',') %}
+
         {%- set line1= ["ఈ ఆసుపత్రికి నేషనల్ ఇన్సూరెన్స్ కంపెనీ లిమిటెడ్ అనే భీమా సంస్థ  భీమా సదుపాయం కల్పిస్తుంది."] |join('') -%}
         {%- set line2= ["నేషనల్ ఇన్సూరెన్స్ కంపెనీ లిమిటెడ్ అనే భీమా సంస్థ ఈ ఆసుపత్రి కొరకు భీమా సదుపాయం కల్పిస్తుంది."] |join('') -%}
             {{ [ line1,line2 ] | random }}
@@ -130,11 +134,15 @@
 {%- endmacro -%}
 
 {%- macro ending(references) -%}
-	{{ '==మూలాలు=='+'\n\n1. ఈ వివరములు [https://www.practo.com/ | ప్రక్టో ] వారి వెబ్సైటు నుండి సేకరించబడినవి.'+'\n\n'+ '2. [https://data.gov.in/catalog/hospital-directory-national-health-portal| Open Government Data] వారి ప్లాట్ఫారం నుండి సేకరించబడినవి.'+'\n\n'+ '3. [https://data.gov.in/catalog/hospital-directory-national-health-portal| Open Government Data] వారి ప్లాట్ఫారం నుండి సేకరించబడినవి.'+'\n\n'}}
+    {{ '==మూలాలు=='+'\n'}}
+    {% set ref_list=references.split(',') %}
+    {%- for reference in ref_list -%}
+        {{'* '+reference + '\n'}}
+    {%- endfor -%}
 {%- endmacro -%}
 
 {%- macro details(country, state, city) -%}
-	[[వర్గం: తెవికీ ఆసుపత్రులు ]][[వర్గం: తెవికీ  వైద్య సంస్థలు]]
+	[[వర్గం: తెవికీ ఆసుపత్రులు ]]
     [[వర్గం: {{country}} లో ఆసుపత్రులు ]] [[వర్గం: {{country}} లో వైద్య సంస్థలు ]]
     [[వర్గం: {{state}} లో ఆసుపత్రులు ]] [[వర్గం: {{state}} లో వైద్య సంస్థలు ]]
     [[వర్గం: {{city}} లో ఆసుపత్రులు ]] [[వర్గం: {{city}} లో వైద్య సంస్థలు ]]
